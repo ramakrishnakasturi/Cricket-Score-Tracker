@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <title>HomeGround Cric</title>
+    <style>
+      h1 {
+        font-size:200px
+      }
+      button {
+        font-size: 200px;
+        padding: 14px 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="scoreboard"></div>
+    <script type="text/babel">
+
+      class Runs extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {
+            runs: 0
+          };
+        }
+
+        componentDidMount() {
+          const runs = localStorage.getItem("runs");
+          if (runs !== null) {
+            this.setState({
+              runs: parseInt(runs)
+             });
+          }
+
+          window.addEventListener("beforeunload", () => {
+            localStorage.setItem("runs", this.state.runs);
+          });
+        }
+
+        render() {
+          return (
+            <div>
+              <h1>{this.state.runs} Runs</h1>
+              <button onClick={this.decrement}>-</button>
+              <button onClick={this.increment}>+</button>
+            </div>
+          );
+        }
+
+        increment = () => {
+          this.setState(state => ({
+            runs: state.runs + 1
+          }));
+        }
+
+        decrement = () => {
+          this.setState(state => ({
+              runs: state.runs - 1
+          }));
+        }
+
+      }
+
+      class Balls extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {
+            balls: 0
+          };
+        }
+
+        componentDidMount() {
+          const balls = localStorage.getItem("balls");
+          if (balls !== null) {
+            this.setState({
+              balls: parseInt(balls)
+             });
+          }
+
+          window.addEventListener("beforeunload", () => {
+            localStorage.setItem("balls", this.state.balls);
+          });
+        }
+
+        render() {
+          return (
+            <div>
+              <h1>{this.state.balls} Balls</h1>
+              <button onClick={this.decrement}>-</button>
+              <button onClick={this.increment}>+</button>
+            </div>
+          );
+        }
+
+        increment = () => {
+          this.setState(state => ({
+            balls: state.balls + 1
+          }));
+        }
+
+        decrement = () => {
+              this.setState(state => ({
+                balls: state.balls - 1
+            }));
+        }
+      };
+
+
+  class ScoreBoard extends React.Component {
+        render() {
+          return (
+            <div>
+              <Runs /> <Balls />
+            </div>
+          );
+        }
+      }
+
+    ReactDOM.render(<ScoreBoard />, document.querySelector("#scoreboard"));
+    </script>
+  </body>
+</html>
